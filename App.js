@@ -2,10 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import {axiosClima} from './src/services/clima'
+import GetLocation from 'react-native-get-location'
 
 export default function App() {
   const [clima, setClima] = useState();
-
+  
   var options = {
     enableHighAccuracy: true,
     timeout: 5000,
@@ -14,7 +15,8 @@ export default function App() {
   
   function success(pos) {
     var crd = pos.coords;
-  
+    
+    setClima(crd.latitude)
     console.log('Your current position is:');
     console.log('Latitude : ' + crd.latitude);
     console.log('Longitude: ' + crd.longitude);
@@ -27,6 +29,17 @@ export default function App() {
   
   navigator?.geolocation?.getCurrentPosition(success, error, options);
   
+  GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+  })
+  .then(location => {
+      setClima(location);
+  })
+  .catch(error => {
+      const { code, message } = error;
+      console.warn(code, message);
+  })
 
   
 
