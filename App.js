@@ -1,73 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { axiosClima } from './src/services/clima'
-import GetLocation from 'react-native-get-location'
+import { StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Home from './src/screens/home'
+import Contactos from './src/screens/contacts'
+import TemperaturaHora from './src/screens/temperaturaHora'
+import QRScanner from './src/screens/QRScanner'
 
 export default function App() {
-  const [clima, setClima] = useState();
-  /* 
-  var options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0
-  };
+  const Stack = createNativeStackNavigator();
   
-  function success(pos) {
-    var crd = pos.coords;
-    
-    setClima(crd.latitude)
-    console.log('Your current position is:');
-    console.log('Latitude : ' + crd.latitude);
-    console.log('Longitude: ' + crd.longitude);
-    console.log('More or less ' + crd.accuracy + ' meters.');
-  };
-  
-  function error(err) {
-    console.warn('ERROR(' + err.code + '): ' + err.message);
-  };
-  
-  navigator?.geolocation?.getCurrentPosition(success, error, options);
-  */
-  // crea un nuevo objeto `Date`
-  var today = new Date();
-  
-  // obtener la hora en la configuración regional de EE. UU.
-  var now = today.toLocaleTimeString('es-AR');
-  console.log(now);
-
-  GetLocation.getCurrentPosition({
-    enableHighAccuracy: true,
-    timeout: 150000,
-  })
-    .then(location => {
-      console.log(location)
-      setClima(location)
-    })
-    .catch(ex => {
-      const { code, message } = ex;
-      console.warn(code, message);
-      if (code === 'CANCELLED') {
-        Alert.alert('Location cancelled by user or by another request');
-      }
-      if (code === 'UNAVAILABLE') {
-        Alert.alert('Location service is disabled or unavailable');
-      }
-      if (code === 'TIMEOUT') {
-        Alert.alert('Location request timed out');
-      }
-      if (code === 'UNAUTHORIZED') {
-        Alert.alert('Authorization denied');
-      }
-    });
-
-
-
+  function HomeScreen() {
+    return (
+      <Home />
+    );
+  }
+  function ContactosScreen() {
+    return (
+      <Contactos />
+    );
+  }
+  function TemperaturaHoraScreen() {
+    return (
+      <TemperaturaHora />
+    );
+  }
+  function QRScannerScreen() {
+    return (
+      <QRScanner />
+    );
+  }
   return (
-    <View style={styles.container}>
-      <Text>Nce {clima}</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Contactos" component={ContactosScreen} />
+        <Stack.Screen name="TemperaturaHora" component={TemperaturaHoraScreen} />
+        <Stack.Screen name="QRScanner" component={QRScannerScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
