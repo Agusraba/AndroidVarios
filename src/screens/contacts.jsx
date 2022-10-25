@@ -16,13 +16,13 @@ export default function Contactos() {
             if (status === 'granted') {
                 setPermission(true);
                 const { data } = await Contacts.getContactsAsync({
-                    fields: [Contacts.Fields.PhoneNumbers],
+                    fields: [Contacts.Fields.Name, Contacts.Fields.PhoneNumbers],
                 });
 
                 if (data.length > 0) {
                     setContacts(data)
                     const contact = data;
-                    console.log(contact);
+                    console.log(contact.phoneNumbers);
                 } 
             }
         })();

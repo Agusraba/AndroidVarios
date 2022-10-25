@@ -46,7 +46,7 @@ export default function TemperaturaHora() {
 
     return (
         <SafeAreaView styles={styles.container}>
-            <Text>Temperatura:{clima.temperatura}°</Text>
+            <Text>Temperatura:{clima.temperatura ? clima.temperatura + "°" : "Waiting..."}</Text>
             <Text>Hora:{now}</Text>
         </SafeAreaView >
     );

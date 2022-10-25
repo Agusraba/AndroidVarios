@@ -1,27 +1,43 @@
 import { React, useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Accelerometer } from 'expo-sensors';
+import * as SMS from 'expo-sms';
 
 export default function llamado() {
+    const [subscription, setSubscription] = useState(null);
     const [data, setData] = useState({
         x: 0,
         y: 0,
         z: 0,
     });
-    const [subscription, setSubscription] = useState(null);
+   const[acceleration, setAcceleration] = useState(0)
+   const sendSMS = async () => {
+    const { result } = await SMS.sendSMSAsync(
+        ['0123456789', '9876543210'],
+        'My sample HelloWorld message'
+      );
+    }
 
-    const _slow = () => {
-        Accelerometer.setUpdateInterval(1000);
-    };
+    const onUpdate = ({ x, y, z }) => {
 
-    const _fast = () => {
-        Accelerometer.setUpdateInterval(16);
-    };
+        // compute a total acceleration value, here with a square sum
+        // you can eventually change the formula
+        // if you want to prioritize an axis
+        const acceleration2 = Math.sqrt(x * x + y * y + z * z);
+    
+        // Adjust sensibility, because it can depend of usage (& devices)
+        const sensibility = 1.8;
+        if (acceleration2 >= sensibility) {
+            onShake(acceleration2)
+            setAcceleration(acceleration2);
+        }
+      };
 
     const _subscribe = () => {
         setSubscription(
             Accelerometer.addListener(accelerometerData => {
                 setData(accelerometerData);
+                onUpdate(accelerometerData)
             })
         );
     };
@@ -38,23 +54,20 @@ export default function llamado() {
 
     const { x, y, z } = data;
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Text style={styles.text}>Accelerometer: (in Gs where 1 G = 9.81 m s^-2)</Text>
             <Text style={styles.text}>
                 x: {x} y: {y} z: {z}
             </Text>
-            <View style={styles.buttonContainer}>
+            <Text style={styles.text}>
+                {acceleration}
+            </Text>
+            <SafeAreaView style={styles.buttonContainer}>
                 <TouchableOpacity onPress={subscription ? _unsubscribe : _subscribe} style={styles.button}>
                     <Text>{subscription ? 'On' : 'Off'}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={_slow} style={[styles.button, styles.middleButton]}>
-                    <Text>Slow</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={_fast} style={styles.button}>
-                    <Text>Fast</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
+            </SafeAreaView>
+        </SafeAreaView>
     );
 }
 

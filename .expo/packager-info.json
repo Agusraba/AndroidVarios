@@ -1,10 +1,10 @@
 {
-  "expoServerPort": 19000,
-  "packagerPort": 19000,
-  "expoServerNgrokUrl": "https://8v-tce.anonymous.androidvarios.exp.direct",
-  "packagerNgrokUrl": "https://8v-tce.anonymous.androidvarios.exp.direct",
-  "ngrokPid": 3396,
-  "webpackServerPort": 19006,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
+  "webpackServerPort": null,
   "packagerPid": null,
   "devToolsPort": 19002
 }

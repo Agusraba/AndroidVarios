@@ -9,7 +9,7 @@ export default function QRScanner() {
     const navigation = useNavigation()
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
-
+    const [clikScan, setClikScan] = useState(false);
     useEffect(() => {
         const getBarCodeScannerPermissions = async () => {
             const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -19,9 +19,9 @@ export default function QRScanner() {
         getBarCodeScannerPermissions();
     }, []);
 
-    const handleBarCodeScanned = ({ type, data }) => {
+    const handleBarCodeScanned = ({ data }) => {
         setScanned(true);
-        alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+        alert(` ${data} `);
     };
 
     if (hasPermission === null) {
@@ -37,11 +37,16 @@ export default function QRScanner() {
             <QRCode
                 value="Proyecto realizado por Agustin Rabinowicz & Fausto Oliva"
             />
-            <BarCodeScanner
-                onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                style={StyleSheet.absoluteFillObject}
-            />
+            <Button  disabled={clikScan} onPress={() => { setClikScan(true) }} title="Clickea para escanear un QR">
+                
+            </Button>
+            {clikScan &&
+                <BarCodeScanner
+                    onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                    style={styles.scanner}
+                />}
             {scanned && <Button title={'Clickea para escanear de nuevo'} onPress={() => setScanned(false)} />}
+
         </SafeAreaView >
     );
 }
@@ -53,4 +58,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    scanner: {
+        height: "70%",
+        width: "50%"
+    }
 });
