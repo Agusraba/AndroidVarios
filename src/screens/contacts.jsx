@@ -1,9 +1,10 @@
-import { StyleSheet, Text, SafeAreaView , Button, FlatList } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Button, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { useState, useEffect } from "react";
 import * as Contacts from 'expo-contacts';
 import Contacto from "../components/contacto.js"
+import Vibrator from '../components/vibration'
 
 export default function Contactos() {
     const navigation = useNavigation()
@@ -23,7 +24,11 @@ export default function Contactos() {
                     setContacts(data)
                     const contact = data;
                     console.log(contact.phoneNumbers);
-                } 
+                } else{
+                    Vibrator("No tiene contactos")
+                }
+            } else {
+                Vibrator("No se ha concedido los permisos para acceder a los contactos")
             }
         })();
     }, []);
@@ -33,18 +38,14 @@ export default function Contactos() {
     )
 
     return (
-        <SafeAreaView  style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Text>Contactos</Text>
-            {permissions ? 
-            <FlatList
-            data={contacts}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}>    
-            </FlatList>
-
-            :
-            
-            <Text>Permiso no condedido de acceder a contactos</Text>
+            {permissions ??
+                <FlatList
+                    data={contacts}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}>
+                </FlatList>
             }
         </SafeAreaView >
     );

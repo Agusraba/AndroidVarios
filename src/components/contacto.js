@@ -4,7 +4,7 @@ import { Text, SafeAreaView , StyleSheet } from "react-native";
 const Contacto = ({data}) =>{
     return(
         <SafeAreaView >
-            <Text>{data.name} - {data.phoneNumbers[0].number}</Text>
+            <Text>{data.name} / {data.phoneNumbers[0].number}</Text>
         </SafeAreaView >
     );
 }

@@ -4,6 +4,7 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import QRCode from 'react-native-qrcode-svg';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import Vibrator from '../components/vibration'
 
 export default function QRScanner() {
     const navigation = useNavigation()
@@ -28,7 +29,7 @@ export default function QRScanner() {
         return <Text>Requeriendo permiso a la camara</Text>;
     }
     if (hasPermission === false) {
-        return <Text>No pemiso concedido a la camara</Text>;
+        Vibrator("No pemiso concedido a la camara")
     }
 
     return (
@@ -37,8 +38,10 @@ export default function QRScanner() {
             <QRCode
                 value="Proyecto realizado por Agustin Rabinowicz & Fausto Oliva"
             />
-            <Button  disabled={clikScan} onPress={() => { setClikScan(true) }} title="Clickea para escanear un QR">
-                
+            <Button  
+            disabled={clikScan} 
+            onPress={() => { setClikScan(true) }} 
+            title="Clickea para escanear un QR">
             </Button>
             {clikScan &&
                 <BarCodeScanner
