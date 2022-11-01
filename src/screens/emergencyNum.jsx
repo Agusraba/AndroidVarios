@@ -1,53 +1,73 @@
-import React, { useState, useRef } from "react";
-import { SafeAreaView, StyleSheet, Text, TouchableHighlight } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import PhoneInput from "react-native-phone-input";
+import PhoneInput from "react-native-phone-number-input";
 import Vibrator from '../components/vibration'
 
 export default function NumeroEmergencia() {
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [formattedText, setFormattedText] = useState("");
+    const [storedPhone, setStoredPhone] = useState()
     const phoneInput = useRef<PhoneInput>(null);
 
 
     const storeData = async (value) => {
         try {
+            console.log(value)
             await AsyncStorage.setItem('@emergency_number', value)
         } catch (e) {
-            // saving error
+            Vibrator("No se pudo guardar en Local Storage")
         }
     }
 
-    const handleSubmit = (phoneNumber) => {
-        const isValid = phoneInput.current?.isValidNumber(phoneNumber);
-        if (isValid) {
-            console.log("SUBMITTED! ", phoneNumber)
-            storeData(phoneNumber)
-        } else {
-            console.log("INVALID NUMBER.")
+    const bringData = async () => {
+        try {
+          const value = await AsyncStorage.getItem('@emergency_number');
+          if (value !== null) {
+            // We have data!!
+            setStoredPhone(value);
+          }
+        } catch (error) {
+          // Error retrieving data
+          Vibrator("No se pudo obtener del Local Storage")
+
         }
     }
+
+    useEffect (() => {
+        (async() => {
+            bringData()
+        })()
+    })
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text>Hola</Text>
+            <View style={styles.message}>
+              <Text>Formatted Value : {storedPhone}</Text>
+            </View>
             <PhoneInput
-                style={styles.phoneInput}
-                initialValue={phoneNumber}
-                initialCountry="ar"
+                ref={useRef(phoneInput)}
+                defaultValue={phoneNumber}
+                defaultCode="AR"
+                layout="first"
                 onChangeText={(text) => {
                     setPhoneNumber(text);
                 }}
                 onChangeFormattedText={(text) => {
-                    isValidNumber(text) ? updateNumber('phoneNumber', text) : text
                     setFormattedText(text);
-                    console.log(text);
                 }}
+                withDarkTheme
                 withShadow
                 autoFocus
             />
-            <TouchableHighlight onPress={handleSubmit}>
-                <Text>Submit</Text>
-            </TouchableHighlight>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                   console.log(formattedText)
+                   storeData(formattedText)
+                }} >
+                <Text>Check</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }
