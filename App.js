@@ -6,7 +6,6 @@ import NumeroEmergencia from './/src/screens/emergencyNum'
 import Contactos from './src/screens/contacts'
 import TemperaturaHora from './src/screens/temperaturaHora'
 import QRScanner from './src/screens/QRScanner'
-import LlamadoEmergencia from './src/screens/llamadoEmergencia'
 import Vibrator from './src/components/vibration'
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -36,11 +35,7 @@ export default function App() {
       <QRScanner />
     );
   }
-  function LlamadoEmergenciaScreen() {
-    return (
-      <LlamadoEmergencia />
-    );
-  }
+ 
   function Vibrate() {
     return (
       <Vibrator />
@@ -54,7 +49,6 @@ export default function App() {
         <Stack.Screen name="Contactos" component={ContactosScreen} />
         <Stack.Screen name="TemperaturaHora" component={TemperaturaHoraScreen} />
         <Stack.Screen name="QRScanner" component={QRScannerScreen} />
-        <Stack.Screen name="LlamadoEmergencia" component={LlamadoEmergenciaScreen} />
         <Stack.Screen name="vibrar" component={Vibrate} />
       </Stack.Navigator>
     </NavigationContainer>

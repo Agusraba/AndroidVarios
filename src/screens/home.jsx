@@ -7,12 +7,12 @@ export default function Home() {
    return (
         <SafeAreaView  styles={styles.container}>
             <Button  title='Nro. de Emergencia' onPress={()=>{navigation.navigate("NumeroEmergencia")}}></Button>
-            <Button title='Contactos 💯' onPress={()=>{navigation.navigate("Contactos")}}></Button>
-            <Button title='Temperatura-Hora 💯' onPress={()=>{navigation.navigate("TemperaturaHora")}}></Button>
-            <Button title='Llamada de emergencia' onPress={()=>{navigation.navigate("LlamadoEmergencia")}}></Button>
+            <Button title='Contactos ' onPress={()=>{navigation.navigate("Contactos")}}></Button>
+            <Button title='Temperatura-Hora ' onPress={()=>{navigation.navigate("TemperaturaHora")}}></Button>
+            <Button disabled title='Llamada de emergencia🔒' ></Button>
             <Button disabled title='Elegir fondo imagen🔒' ></Button>
             <Button disabled title='Video favorito🔒' ></Button>
-            <Button title='Identificador QR 💯' onPress={()=>{navigation.navigate("QRScanner")}}></Button>
+            <Button title='Identificador QR ' onPress={()=>{navigation.navigate("QRScanner")}}></Button>
         </SafeAreaView >
     );
 

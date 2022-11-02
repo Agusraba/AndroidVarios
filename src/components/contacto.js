@@ -1,15 +1,23 @@
 import React from "react";
-import { Text, SafeAreaView , StyleSheet } from "react-native";
+import { Text, SafeAreaView, StyleSheet } from "react-native";
 
-const Contacto = ({data, emergency}) =>{
-    if(data.phoneNumbers[0].number == emergency){
+const Contacto = ({ data, emergency }) => {
+    console.log(data.phoneNumbers[0].number,  emergency)
+    if (data.phoneNumbers[0].number == emergency) {
+        console.log("HOLA")
+        return (
+            <SafeAreaView style={styles.container}>
+                <Text style={styles.emergency}>{data.name} / {data.phoneNumbers[0].number}🚨🚨</Text>
+            </SafeAreaView >
+        );
+    } else {
+        return (
+            <SafeAreaView style={styles.container}>
+                <Text>{data.name} / {data.phoneNumbers[0].number}</Text>
+            </SafeAreaView >
+        );
 
     }
-    return(
-        <SafeAreaView style={styles.container}>
-            <Text style={styles.emergency}>{data.name} / {data.phoneNumbers[0].number}</Text>
-        </SafeAreaView >
-    );
 }
 
 const styles = StyleSheet.create({
@@ -19,9 +27,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    emergency:{
-        d: pageYOffset,
+    emergency: {
+        color: 'green',
     },
+
 });
 
 export default Contacto
