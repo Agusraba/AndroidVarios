@@ -7,8 +7,7 @@ const axiosClientLogin = axios.create({
   
 })
 
-export const getClima = async (lat, lon) => {
-  console.log("hola")  
+export const getClima = async (lat, lon) => {  
   try {
       const response = await axiosClientLogin.get(`?lat=${lat}&lon=${lon}&appid=${ApiKey}&units=metric`);
       return response.data;

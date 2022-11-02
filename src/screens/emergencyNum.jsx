@@ -13,7 +13,6 @@ export default function NumeroEmergencia() {
 
     const storeData = async (value) => {
         try {
-            console.log(value)
             await AsyncStorage.setItem('@emergency_number', value)
         } catch (e) {
             Vibrator("No se pudo guardar en Local Storage")
@@ -63,7 +62,6 @@ export default function NumeroEmergencia() {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                   console.log(formattedText)
                    storeData(formattedText)
                 }} >
                 <Text>Check</Text>

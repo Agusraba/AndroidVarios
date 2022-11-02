@@ -23,15 +23,12 @@ export default function Contactos() {
                 });
 
                 if (data.length > 0) {
-                    console.log("data")
                     setContacts(data)
                     const contact = data;
-                    //console.log(contact);
                 } else {
                     Vibrator("No tiene contactos")
                 }
             } else {
-                console.log("Hola")
                 Vibrator("No se ha concedido los permisos para acceder a los contactos")
             }
         })();

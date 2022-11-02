@@ -19,7 +19,6 @@ export default function TemperaturaHora() {
     const temperatura = (lat, long) => {
         getClima(lat, long)
             .then((res) => {
-                console.log(res.main.temp)
                 setClima({
                     temperatura: res.main.temp
                 })
