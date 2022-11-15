@@ -24,7 +24,7 @@ export default function Contactos() {
 
                 if (data.length > 0) {
                     setContacts(data)
-                    const contact = data;
+
                 } else {
                     Vibrator("No tiene contactos")
                 }
